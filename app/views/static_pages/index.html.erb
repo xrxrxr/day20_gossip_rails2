@@ -1,42 +1,19 @@
 <h1>The Gossip Project</h1>
 <!--p>Bienvenue chez 'User', le site est en construction, peu de commérages pour le moment. Et si tu nous <a href="/gossips/new/">aidais à en créer un</a> ?</p -->
 
+
 <!-- pour faire fonctionner le card-deck 3*3 on utilise un double indicator "indicator_b" et "indicator_n" pour filter les "i" des index des "gossip" qui nous intéressent -->
-<% 20.times do %>
-  <% @indicator_n += 1 %>
-  <%if @indicator_n % 3 == 0%>
-    <div class="card-deck">
+<div class="d-flex align-content-between flex-wrap">
     <% @gossips.each_with_index do |gossip, i| %>
-    <%if (i >= @indicator_b) && (i < @indicator_n) %>
-      <div class="card mt-4">
+      <div class="card mx-auto mt-4" style="width: 350px;">
         <img class="card-img-top" src="https://media.giphy.com/media/2aJWos8PLvdI7pGj0E/giphy.gif" alt="Card image cap">
         <!--%= image_tag(".../100px180/"), :class => "card-img-top", :alt => "Card image cap" %-->
-        <div class="card-body">
-          <h5 class="card-title"><%= gossip.title %></h5>
+        <div class="card-body text-dark">
+          <h5 class="card-title text-dark"><%= gossip.title %></h5>
           <p class="card-text">Pour en savoir plus, l'auteur de cette prose est : <%= gossip.user.first_name %></p>
           <%= link_to "Voir le gossip", gossip_path(gossip.id), :class => "btn btn-primary" %>
         </div>
       </div>
     <% end %>
-    <% end %>
-    </div>
-    <% @indicator_b += 3 %>
-  <% end %>
-<% end %>
-<!-- on affiche le reliquat si besoin -->
-    <div class="card-deck">
-    <% @gossips.each_with_index do |gossip, i| %>
-    <%if i >= @indicator_b %>
-      <div class="card mt-4 mb-4">
-        <img class="card-img-top" src="https://media.giphy.com/media/2aJWos8PLvdI7pGj0E/giphy.gif" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title"><%= gossip.title %></h5>
-          <p class="card-text">Pour en savoir plus, l'auteur de cette prose est : <%= gossip.user.first_name %></p>
-          <%= link_to "Voir le gossip", gossip_path(gossip.id), :class => "btn btn-primary" %>
-        </div>
-      </div>
-    <% end %>
-    <% end %>
-    </div>
-
+</div>
 
