@@ -5,6 +5,7 @@ class GossipsController < ApplicationController
   	@gossip = Gossip.find_by(id: params[:id])
   	@author = @gossip.user
   	@first_name = @author.first_name
+		#@city = @author.city.name
   end
   def new
   	@gossip = Gossip.new
