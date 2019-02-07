@@ -1,6 +1,25 @@
 <h1>Gossip n°<%= @gossip.id %></h1>
-<p>Auteur.e : <%= @author.first_name %> | <%= link_to "clique ici", profile_path(@author.id) %> pour voir sa page</p>
+<p>Auteur.e : <%= @author.first_name %> | <%= link_to "clique ici", user_path(@author.id) %> pour voir sa page</p>
 <p>Titre : <%= @gossip.title %></p>
 <p>Contenu : <%= @gossip.content %></p>
 <p>Date : <%= @gossip.created_at %></p>
-<p>Ville : <%= @gossip.user.city.name %></p>
+<h5>Tags :</h5>
+<% @gossip.tags.each do |tag| %>
+<%= tag.title %><br /><br />
+<% end %>
+<h5>Créer un nouveau commentaire pour ce gossip</h5>
+<%= link_to "nouveau commentaire à écrire", new_gossip_comment_path(@gossip.id) %>
+<h5>Commentaires :</h5>
+    <% @comments.each do |comment| %>
+<%= comment.content %><br /><br />
+<%= comment.user.first_name %><br /><br />
+<%= link_to "modifier le comm'", edit_gossip_comment_path(@gossip.id, comment.id) %>
+<h5>---Commentaires du commentaire---</h5>
+    <% @sub_comments.each do |comment| %>
+<%= comment.content %><br /><br />
+<%= comment.user.first_name %><br /><br />
+<%= link_to "modifier le comm'", edit_gossip_comment_path(@gossip.id, comment.id) %>
+<% end %>
+<p>#############################################</p>
+<br />
+    <% end %>

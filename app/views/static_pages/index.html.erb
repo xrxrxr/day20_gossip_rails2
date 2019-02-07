@@ -1,3 +1,4 @@
+
 <h1>The Gossip Project</h1>
 <!--p>Bienvenue chez 'User', le site est en construction, peu de commérages pour le moment. Et si tu nous <a href="/gossips/new/">aidais à en créer un</a> ?</p -->
 
@@ -12,8 +13,8 @@
           <h5 class="card-title text-dark"><%= gossip.title %></h5>
           <p class="card-text">Pour en savoir plus, l'auteur de cette prose est : <%= gossip.user.first_name %></p>
           <%= link_to "Voir le gossip", gossip_path(gossip.id), :class => "btn btn-primary" %>
+          <%= link_to "Supprimer le gossip", gossip_path(gossip.id), :class => "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } %>
         </div>
       </div>
     <% end %>
 </div>
-

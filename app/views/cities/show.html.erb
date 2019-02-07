@@ -1,0 +1,8 @@
+
+<h1>Ville n°<%= @city.id %></h1>
+<p>Nom : <%= @city.name %></p>
+<% @gossips.each_with_index do |gossip, i| %>
+      <%= gossip.title %>
+      <%= gossip.user.first_name %>
+      <%= link_to "Voir le gossip", gossip_path(gossip.id), :class => "btn btn-primary" %>
+<% end %>

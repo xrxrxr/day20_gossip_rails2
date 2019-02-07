@@ -9,6 +9,8 @@
   <%= label_tag 'Content' %>
   <%= text_area_tag 'content', @gossip.content %>
   <br /> <br />
+  <%= select_tag 'tag[]', options_for_select(@tags.map{|tag| tag.title }), multiple: true %>
+  <br /> <br />
   <%= submit_tag "Create Gossip" %>
 <% end %>
 
