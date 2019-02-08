@@ -3,6 +3,12 @@
 <p>Titre : <%= @gossip.title %></p>
 <p>Contenu : <%= @gossip.content %></p>
 <p>Date : <%= @gossip.created_at %></p>
+<p>Nb de likes : <%= @likes_number %></p>
+<% if like_triplet?('Gossip', @gossip.id) %>
+<%= button_to "Nan j'aime pas en fait", like_path, method: "delete", params: {likeable_type: 'Gossip', likeable_id: @gossip.id} %>
+<% else %>
+<%= button_to "Like that Gossip", likes_path, method: "post", params: {likeable_type: 'Gossip', likeable_id: @gossip.id} %>
+<% end %>
 <h5>Tags :</h5>
 <% @gossip.tags.each do |tag| %>
 <%= tag.title %><br /><br />
@@ -13,13 +19,17 @@
     <% @comments.each do |comment| %>
 <%= comment.content %><br /><br />
 <%= comment.user.first_name %><br /><br />
+<p>Nb de likes : <%= likes_comment_number(comment.id) %></p>
+<%= button_to "Like that Comment", likes_path, method: "post", params: {likeable_type: 'Comment', likeable_id: comment.id} %>
 <%= link_to "modifier le comm'", edit_gossip_comment_path(@gossip.id, comment.id) %>
 <h5>---Commentaires du commentaire---</h5>
-    <% @sub_comments.each do |comment| %>
-<%= comment.content %><br /><br />
-<%= comment.user.first_name %><br /><br />
-<%= link_to "modifier le comm'", edit_gossip_comment_path(@gossip.id, comment.id) %>
+    <% @sub_comments.each do |sub_comment| %>
+<%= sub_comment.content %><br /><br />
+<%= sub_comment.user.first_name %><br /><br />
+<p>Nb de likes : <%= likes_comment_number(sub_comment.id) %></p>
+<%= button_to "Like that Comment", likes_path, method: "post", params: {likeable_type: 'Comment', likeable_id: sub_comment.id} %>
+<%= link_to "modifier le comm'", edit_gossip_comment_path(@gossip.id, sub_comment.id) %>
 <% end %>
-<p>#############################################</p>
+<p>$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</p>
 <br />
     <% end %>

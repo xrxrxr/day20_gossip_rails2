@@ -15,8 +15,8 @@
   </head>
 
   <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <%= link_to "The Gossip Project", root_path, :class => "navbar-brand" %>
+<nav class="navbar navbar-expand-lg text-primary navbar-dark bg-dark ">
+  <%= link_to "The Gossip Project", root_path, :class => "navbar-brand text-primary" %>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -35,13 +35,30 @@
       <li class="nav-item active">
          <%= link_to 'Créer un Gossip', new_gossip_path, :class =>"nav-link" %>
       </li>
+      <% if logged_in? %>
+        <li class="nav-item active">
+          <%= link_to "Se déconnecter", session_path(session[:user_id]), method: :delete, :class =>"nav-link" %>
+        </li>
+      <% else %>
+        <li class="nav-item active">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             Sign In | Sign Up
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <%= link_to 'Créer son compte', new_user_path, :class =>"nav-link text-dark" %>
+              <%= link_to 'Se connecter', new_session_path, :class =>"nav-link text-dark" %>
+            </div>
+          </div>
+        </li>
+      <% end %>
     </ul>
   </div>
 </nav>
 
     <!--div class="container">
     </div>< /.container -->
-    <div class="container">
+    <div class="container text-primary">
       <% flash.each do |key, value| %>
         <div class="alert alert-<%= key %>"><%= value %></div>
       <% end %>

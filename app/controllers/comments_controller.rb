@@ -1,4 +1,5 @@
 class CommentsController < ApplicationController
+  before_action :authenticate_user, only: [:new, :create]
 	def show
   	@gossip = Gossip.find(params[:gossip_id])
   	@comment = Comment.find(params[:id])
@@ -8,9 +9,9 @@ class CommentsController < ApplicationController
   	@comment = Comment.new
   end
   def create
-  	@user = User.find_by(first_name: "Anonymous")
+  	#@user = User.find_by(first_name: "Anonymous")
   	@gossip = Gossip.find(params[:gossip_id])
-  	@comment = Comment.new('content' => params[:content], 'user' => @user, 'gossip' => @gossip)
+  	@comment = Comment.new('content' => params[:content], 'user' => current_user, 'gossip' => @gossip)
   	if @comment.save # essaie de sauvegarder en base @gossip
   	  # si ça marche, il redirige vers la page d'index du site
   	  flash[:success] = "Oh le beau commentaire !" #hash depuis l'application.html.erb
@@ -41,5 +42,14 @@ class CommentsController < ApplicationController
   	@comment = Comment.find(params[:id])
     @comment.destroy
     redirect_to root_path
+  end
+
+  private 
+
+  def authenticate_user
+    unless current_user
+      flash[:danger] = "Please log in."
+      redirect_to new_session_path
+    end
   end
 end

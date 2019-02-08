@@ -1,4 +1,5 @@
 class GossipsController < ApplicationController
+  before_action :authenticate_user, only: [:new, :create]
 	def index
 	end
   def show
@@ -7,6 +8,7 @@ class GossipsController < ApplicationController
   	@first_name = @author.first_name
     @comments = Comment.where(gossip_id: params[:id], commentable_type: nil)
     @sub_comments = Comment.where(gossip_id: params[:id], commentable_type: 'Comment')
+    @likes_number = Like.where(likeable_type: 'Gossip', likeable_id: params[:id]).size
   end
   def new
   	@gossip = Gossip.new
@@ -18,11 +20,11 @@ class GossipsController < ApplicationController
     #puts "$" * 30
     #Tag.all.each do |tag_name|
     #  @tags << tag_name.title
-    #end
+    #end 
   end
   def create
-  	@user = User.find_by(first_name: "Anonymous")
-  	@gossip = Gossip.new('title' => params[:title], 'content' => params[:content], 'user' => @user)
+    @tags = Tag.all
+  	@gossip = Gossip.new('title' => params[:title], 'content' => params[:content], 'user' => current_user)
     params[:tag].each do |tag|
       tag_interim = Tag.find_by(title: tag)
       @join_table = JoinTableGossipTag.new('gossip' => @gossip, 'tag' => tag_interim)
@@ -55,5 +57,14 @@ class GossipsController < ApplicationController
     @gossip = Gossip.find(params[:id])
     @gossip.destroy
     redirect_to root_path
+  end
+
+  private 
+
+  def authenticate_user
+    unless current_user
+      flash[:warning] = "Please log in."
+      redirect_to new_session_path
+    end
   end
 end
